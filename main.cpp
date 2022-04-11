@@ -18,7 +18,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-
 	win->CreateGameWindow("GE2A_17_ムネハシ_リョウワ_AL3");
 
 	// DirectX初期化処理
