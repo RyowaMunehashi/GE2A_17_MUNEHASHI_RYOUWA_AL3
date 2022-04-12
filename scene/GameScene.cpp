@@ -22,6 +22,8 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
+	soundDataHandle_ = audio_->LoadWave("se_sad03.wav");
+	audio_->PlayWave(soundDataHandle_);
 }
 
 void GameScene::Update() { 

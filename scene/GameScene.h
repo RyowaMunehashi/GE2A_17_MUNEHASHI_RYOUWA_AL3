@@ -52,6 +52,7 @@ class GameScene {
 	Model* model_ = nullptr;
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+	uint32_t soundDataHandle_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用
