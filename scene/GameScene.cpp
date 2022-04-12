@@ -37,10 +37,38 @@ void GameScene::Initialize() {
 		worldTransform_[i].Initialize();
 	}
 
+	//カメラ視点座標
+	viewProjection_.eye = {0, 0, -10};
+
 	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//視点移動ベクトル
+	XMFLOAT3 move = {0, 0, 0};
+
+	//視点移動の速さ
+	const float kEyeSpeed = 0.2f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_K)) {
+		move = {0, 0, kEyeSpeed};
+	} else if (input_->PushKey(DIK_S)) {
+		move = {0, 0, -kEyeSpeed};
+	}
+
+	//視点移動
+	viewProjection_.eye.x += move.x;
+	viewProjection_.eye.y += move.y;
+	viewProjection_.eye.z += move.z;
+
+	viewProjection_.UpdateMatrix();
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf(
+	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+
+}
 
 void GameScene::Draw() {
 
