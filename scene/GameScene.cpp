@@ -23,7 +23,7 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 	soundDataHandle_ = audio_->LoadWave("se_sad03.wav");
-	audio_->PlayWave(soundDataHandle_);
+	audio_->PlayWave(soundDataHandle_,true);
 }
 
 void GameScene::Update() { 
@@ -39,6 +39,10 @@ void GameScene::Update() {
 	std::to_string(value_);
 
 	debugText_->Print(strDebug, 50, 50, 1.0f);
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		audio_->StopWave(soundDataHandle_);	
+	}
 }
 
 void GameScene::Draw() {
