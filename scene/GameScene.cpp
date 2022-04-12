@@ -16,6 +16,9 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	model_ = Model::Create();
+	//スケーリング設定
+	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
 }
