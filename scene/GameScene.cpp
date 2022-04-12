@@ -26,14 +26,17 @@ void GameScene::Initialize() {
 	//乱数範囲(座標)
 	std::uniform_real_distribution<float> posDice(-10.0f, 10.0f);
 
-	//スケーリング設定
-	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
-	//回転角の設定
-	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, 0.0f};
-	//平行移動の追加
-	worldTransform_.translation_ = {10.0f, 10.0f, 10.0f};
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		//スケーリング設定
+		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		//回転角の設定
+		worldTransform_[i].rotation_ = {rotDice(engine), rotDice(engine), rotDice(engine)};
+		//平行移動の追加
+		worldTransform_[i].translation_ = {posDice(engine), posDice(engine), posDice(engine)};
 
-	worldTransform_.Initialize();
+		worldTransform_[i].Initialize();
+	}
+
 	viewProjection_.Initialize();
 }
 
@@ -65,7 +68,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	for (size_t i = 0; i < _countof(worldTransform_); i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
