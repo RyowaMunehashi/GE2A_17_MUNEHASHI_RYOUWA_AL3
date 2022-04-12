@@ -81,6 +81,7 @@ void GameScene::Update() {
 		move = {kTragetSpeed, 0, 0};
 	}
 
+	//注視点移動
 	viewProjection_.target.x += move.x;
 	viewProjection_.target.y += move.y;
 	viewProjection_.target.z += move.z;
