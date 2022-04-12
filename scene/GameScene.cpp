@@ -9,6 +9,12 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { delete model_; }
 
+void BectPulas(XMFLOAT3& view, const XMFLOAT3& move) {
+	view.x += move.x;
+	view.y += move.y;
+	view.z += move.z;
+}
+
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -40,6 +46,9 @@ void GameScene::Initialize() {
 	//カメラ視点座標
 	viewProjection_.eye = {0, 0, -50};
 
+	//カメラ注視点座標
+	viewProjection_.target = {10, 0, 0};
+
 	viewProjection_.Initialize();
 }
 
@@ -58,16 +67,30 @@ void GameScene::Update() {
 	}
 
 	//視点移動
-	viewProjection_.eye.x += move.x;
-	viewProjection_.eye.y += move.y;
-	viewProjection_.eye.z += move.z;
-
+	BectPulas(viewProjection_.eye, move);
 	viewProjection_.UpdateMatrix();
 
 	debugText_->SetPos(50, 50);
 	debugText_->Printf(
 	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 
+	//注視点の移動の速さ
+	const float kTragetSpeed = 0.2f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_LEFT)) {
+		move = {-kTragetSpeed, 0, 0};
+	} else if (input_->PushKey(DIK_RIGHT)) {
+		move = {kTragetSpeed, 0, 0};
+	}
+
+	BectPulas(viewProjection_.target, move);
+	viewProjection_.UpdateMatrix();
+
+	debugText_->SetPos(50, 70);
+	debugText_->Printf(
+	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
+	  viewProjection_.target.z);
 }
 
 void GameScene::Draw() {
