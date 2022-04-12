@@ -9,11 +9,6 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { delete model_; }
 
-void BectPulas(XMFLOAT3& view, const XMFLOAT3& move) {
-	view.x += move.x;
-	view.y += move.y;
-	view.z += move.z;
-}
 
 void GameScene::Initialize() {
 
@@ -67,7 +62,9 @@ void GameScene::Update() {
 	}
 
 	//視点移動
-	BectPulas(viewProjection_.eye, move);
+	viewProjection_.eye.x += move.x;
+	viewProjection_.eye.y += move.y;
+	viewProjection_.eye.z += move.z;
 	viewProjection_.UpdateMatrix();
 
 	debugText_->SetPos(50, 50);
@@ -84,7 +81,9 @@ void GameScene::Update() {
 		move = {kTragetSpeed, 0, 0};
 	}
 
-	BectPulas(viewProjection_.target, move);
+	viewProjection_.target.x += move.x;
+	viewProjection_.target.y += move.y;
+	viewProjection_.target.z += move.z;
 	viewProjection_.UpdateMatrix();
 
 	debugText_->SetPos(50, 70);
