@@ -32,6 +32,13 @@ void GameScene::Update() {
 	position.y += 1.0f;
 
 	sprite_->SetPosition(position);
+
+    value_++;
+
+	std::string strDebug = std::string("Value:") + 
+	std::to_string(value_);
+
+	debugText_->Print(strDebug, 50, 50, 1.0f);
 }
 
 void GameScene::Draw() {
@@ -73,7 +80,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	//sprite_->Draw();
+	sprite_->Draw();
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);

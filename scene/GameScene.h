@@ -53,6 +53,7 @@ class GameScene {
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 	uint32_t soundDataHandle_ = 0;
+	int32_t value_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用
