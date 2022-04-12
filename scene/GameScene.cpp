@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	}
 
 	//カメラ視点座標
-	viewProjection_.eye = {0, 0, -10};
+	viewProjection_.eye = {0, 0, -50};
 
 	viewProjection_.Initialize();
 }
@@ -51,7 +51,7 @@ void GameScene::Update() {
 	const float kEyeSpeed = 0.2f;
 
 	//押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_K)) {
+	if (input_->PushKey(DIK_W)) {
 		move = {0, 0, kEyeSpeed};
 	} else if (input_->PushKey(DIK_S)) {
 		move = {0, 0, -kEyeSpeed};
