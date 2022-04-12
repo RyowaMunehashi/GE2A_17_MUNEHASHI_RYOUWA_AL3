@@ -20,6 +20,8 @@ void GameScene::Initialize() {
 	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
 	//回転角の設定
 	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, 0.0f};
+	//平行移動の追加
+	worldTransform_.translation_ = {10.0f, 10.0f, 10.0f};
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
