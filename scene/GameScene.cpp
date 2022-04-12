@@ -18,6 +18,8 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	//スケーリング設定
 	worldTransform_.scale_ = {5.0f, 5.0f, 5.0f};
+	//回転角の設定
+	worldTransform_.rotation_ = {XM_PI / 4.0f, XM_PI / 4.0f, 0.0f};
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
