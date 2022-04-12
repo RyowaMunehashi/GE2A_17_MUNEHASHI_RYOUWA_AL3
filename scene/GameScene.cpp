@@ -18,7 +18,13 @@ void GameScene::Initialize() {
 	sprite_ = Sprite::Create(textureHandle_, {100, 50});
 }
 
-void GameScene::Update() {}
+void GameScene::Update() { 
+	XMFLOAT2 position = sprite_->GetPosition();
+	position.x += 2.0f;
+	position.y += 1.0f;
+
+	sprite_->SetPosition(position);
+}
 
 void GameScene::Draw() {
 
