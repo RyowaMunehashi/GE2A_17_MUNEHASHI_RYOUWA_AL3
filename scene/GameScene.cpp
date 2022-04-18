@@ -44,6 +44,10 @@ void GameScene::Initialize() {
 	//カメラ注視点座標
 	viewProjection_.target = {10, 0, 0};
 
+	//カメラ上方向ベクトルを設定
+	viewProjection_.up = {cosf(XM_PI / 4.0f), sinf(XM_PI / 4.0f), 0.0f};
+
+	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
 
@@ -91,6 +95,26 @@ void GameScene::Update() {
 	debugText_->Printf(
 	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
 	  viewProjection_.target.z);
+
+	//上方向の回転速さ
+	const float kUpRotSpeed = 0.05f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_SPACE)) {
+		viewAngle += kUpRotSpeed;
+		//2πを超えたら0に戻す
+		viewAngle = fmodf(viewAngle, XM_2PI);
+	}
+
+	//上方向ベクトルを計算
+	viewProjection_.up = {cosf(viewAngle), sinf(viewAngle), 0.0f};
+
+	//行列の再計算
+	viewProjection_.UpdateMatrix();
+
+	debugText_->SetPos(50, 90);
+	debugText_->Printf(
+	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 }
 
 void GameScene::Draw() {
