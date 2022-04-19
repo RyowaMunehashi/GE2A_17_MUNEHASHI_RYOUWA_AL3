@@ -80,6 +80,28 @@ void GameScene::Update() {
 	worldTransform_[PartId::Root].translation_.y += move.y;
 	worldTransform_[PartId::Root].translation_.z += move.z;
 
+	//上半身の回転処理
+	//上半身の回転速さ
+	const float kChestRotSpeed = 0.05f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_U)) {
+		worldTransform_[PartId::Chest].rotation_.y -= kChestRotSpeed;
+	} else if (input_->PushKey(DIK_I)) {
+		worldTransform_[PartId::Chest].rotation_.y += kChestRotSpeed;
+	}
+
+	//下半身の回転処理
+	//下半身の回転速さ
+	const float kHipRotSpeed = 0.05f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_J)) {
+		worldTransform_[PartId::Hip].rotation_.y -= kHipRotSpeed;
+	} else if (input_->PushKey(DIK_K)) {
+		worldTransform_[PartId::Hip].rotation_.y += kHipRotSpeed;
+	}
+
 	worldTransform_[PartId::Root].UpdateMatrix();
 	worldTransform_[PartId::Spine].UpdateMatrix();
 	worldTransform_[PartId::Chest].UpdateMatrix();
