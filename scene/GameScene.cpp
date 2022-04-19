@@ -22,8 +22,28 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::Root].Initialize();
 	//子(1番)
 	worldTransform_[PartId::Spine].translation_ = {0, 4.5f, 0};
-	worldTransform_[PartId::Spine].parent_ = &worldTransform_[0];
+	worldTransform_[PartId::Spine].parent_ = &worldTransform_[PartId::Root];
 	worldTransform_[PartId::Spine].Initialize();
+
+	//上半身
+	//胸
+	worldTransform_[PartId::Chest].translation_ = {0, 0, 0};
+	worldTransform_[PartId::Chest].parent_ = &worldTransform_[PartId::Spine];
+	worldTransform_[PartId::Chest].Initialize();
+	//頭
+	worldTransform_[PartId::Head].translation_ = {0, 3.0f, 0};
+	worldTransform_[PartId::Head].parent_ = &worldTransform_[PartId::Chest];
+	worldTransform_[PartId::Head].Initialize();
+	//左腕
+	worldTransform_[PartId::ArmL].translation_ = {-3.0f, 0, 0};
+	worldTransform_[PartId::ArmL].parent_ = &worldTransform_[PartId::Chest];
+	worldTransform_[PartId::ArmL].Initialize();
+	//右腕
+	worldTransform_[PartId::ArmR].translation_ = {3.0f, 0, 0};
+	worldTransform_[PartId::ArmR].parent_ = &worldTransform_[PartId::Chest];
+	worldTransform_[PartId::ArmR].Initialize();
+
+	//
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -98,8 +118,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	model_->Draw(worldTransform_[PartId::Root], viewProjection_, textureHandle_);
-	model_->Draw(worldTransform_[PartId::Spine], viewProjection_, textureHandle_);
+	// model_->Draw(worldTransform_[PartId::Root], viewProjection_, textureHandle_);
+	// model_->Draw(worldTransform_[PartId::Spine], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::Chest], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::Head], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::ArmL], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::ArmR], viewProjection_, textureHandle_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
