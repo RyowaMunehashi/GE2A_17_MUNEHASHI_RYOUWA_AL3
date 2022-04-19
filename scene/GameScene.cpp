@@ -43,7 +43,19 @@ void GameScene::Initialize() {
 	worldTransform_[PartId::ArmR].parent_ = &worldTransform_[PartId::Chest];
 	worldTransform_[PartId::ArmR].Initialize();
 
-	//
+	//下半身
+	//尻
+	worldTransform_[PartId::Hip].translation_ = {0, -3.0f, 0};
+	worldTransform_[PartId::Hip].parent_ = &worldTransform_[PartId::Spine];
+	worldTransform_[PartId::Hip].Initialize();
+	//左足
+	worldTransform_[PartId::LegL].translation_ = {-3.0f, -3.0f, 0};
+	worldTransform_[PartId::LegL].parent_ = &worldTransform_[PartId::Hip];
+	worldTransform_[PartId::LegL].Initialize();
+	//右足
+	worldTransform_[PartId::LegR].translation_ = {3.0f, -3.0f, 0};
+	worldTransform_[PartId::LegR].parent_ = &worldTransform_[PartId::Hip];
+	worldTransform_[PartId::LegR].Initialize();
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -70,6 +82,13 @@ void GameScene::Update() {
 
 	worldTransform_[PartId::Root].UpdateMatrix();
 	worldTransform_[PartId::Spine].UpdateMatrix();
+	worldTransform_[PartId::Chest].UpdateMatrix();
+	worldTransform_[PartId::Head].UpdateMatrix();
+	worldTransform_[PartId::ArmL].UpdateMatrix();
+	worldTransform_[PartId::ArmR].UpdateMatrix();
+	worldTransform_[PartId::Hip].UpdateMatrix();
+	worldTransform_[PartId::LegL].UpdateMatrix();
+	worldTransform_[PartId::LegR].UpdateMatrix();
 
 	//デバック表示
 	debugText_->SetPos(50, 50);
@@ -124,6 +143,9 @@ void GameScene::Draw() {
 	model_->Draw(worldTransform_[PartId::Head], viewProjection_, textureHandle_);
 	model_->Draw(worldTransform_[PartId::ArmL], viewProjection_, textureHandle_);
 	model_->Draw(worldTransform_[PartId::ArmR], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::Hip], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::LegL], viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_[PartId::LegR], viewProjection_, textureHandle_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
