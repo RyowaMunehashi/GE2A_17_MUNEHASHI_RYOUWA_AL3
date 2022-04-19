@@ -38,20 +38,14 @@ void GameScene::Initialize() {
 		worldTransform_[i].Initialize();
 	}
 
-	//カメラ視点座標
-	viewProjection_.eye = {0, 0, -50};
-
-	//カメラ注視点座標
-	viewProjection_.target = {10, 0, 0};
-
-	//カメラ上方向ベクトルを設定
-	viewProjection_.up = {cosf(XM_PI / 4.0f), sinf(XM_PI / 4.0f), 0.0f};
+	viewProjection_.fovAngleY = XMConvertToRadians(10.0f);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
 
 void GameScene::Update() {
+	/*
 	//視点移動ベクトル
 	XMFLOAT3 move = {0, 0, 0};
 
@@ -115,6 +109,7 @@ void GameScene::Update() {
 	debugText_->SetPos(50, 90);
 	debugText_->Printf(
 	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
+	  */
 }
 
 void GameScene::Draw() {
