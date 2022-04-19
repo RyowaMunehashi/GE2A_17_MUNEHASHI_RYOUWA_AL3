@@ -38,7 +38,12 @@ void GameScene::Initialize() {
 		worldTransform_[i].Initialize();
 	}
 
+	//カメラ垂直方向視野角を設定
 	viewProjection_.fovAngleY = XMConvertToRadians(10.0f);
+
+	//アスペクト比を設定
+	//viewProjection_.aspectRatio = 1.0f;
+
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -65,10 +70,6 @@ void GameScene::Update() {
 	viewProjection_.eye.z += move.z;
 	viewProjection_.UpdateMatrix();
 
-	debugText_->SetPos(50, 50);
-	debugText_->Printf(
-	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
-
 	//注視点の移動の速さ
 	const float kTragetSpeed = 0.2f;
 
@@ -85,11 +86,6 @@ void GameScene::Update() {
 	viewProjection_.target.z += move.z;
 	viewProjection_.UpdateMatrix();
 
-	debugText_->SetPos(50, 70);
-	debugText_->Printf(
-	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
-	  viewProjection_.target.z);
-
 	//上方向の回転速さ
 	const float kUpRotSpeed = 0.05f;
 
@@ -105,10 +101,6 @@ void GameScene::Update() {
 
 	//行列の再計算
 	viewProjection_.UpdateMatrix();
-
-	debugText_->SetPos(50, 90);
-	debugText_->Printf(
-	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 	*/
 
 	//上キーで視野角が広がる
@@ -126,6 +118,16 @@ void GameScene::Update() {
 	viewProjection_.UpdateMatrix();
 
 	//デバック表示
+	debugText_->SetPos(50, 50);
+	debugText_->Printf(
+	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
+	debugText_->SetPos(50, 70);
+	debugText_->Printf(
+	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
+	  viewProjection_.target.z);
+	debugText_->SetPos(50, 90);
+	debugText_->Printf(
+	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 	debugText_->SetPos(50, 110);
 	debugText_->Printf("fovAngleY(Degree):%f", XMConvertToDegrees(viewProjection_.fovAngleY));
 
