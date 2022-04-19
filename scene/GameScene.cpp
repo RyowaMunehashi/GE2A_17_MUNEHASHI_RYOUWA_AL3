@@ -109,7 +109,26 @@ void GameScene::Update() {
 	debugText_->SetPos(50, 90);
 	debugText_->Printf(
 	  "up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
-	  */
+	*/
+
+	//上キーで視野角が広がる
+	if (input_->PushKey(DIK_UP)) {
+		viewProjection_.fovAngleY += 0.01f;
+		viewProjection_.fovAngleY = min(viewProjection_.fovAngleY, XM_PI);
+	}
+	//下キーで視野角が狭まる
+	else if (input_->PushKey(DIK_DOWN)) {
+		viewProjection_.fovAngleY -= 0.01f;
+		viewProjection_.fovAngleY = max(viewProjection_.fovAngleY, 0.01f);
+	}
+
+	//行列の再計算
+	viewProjection_.UpdateMatrix();
+
+	//デバック表示
+	debugText_->SetPos(50, 110);
+	debugText_->Printf("fovAngleY(Degree):%f", XMConvertToDegrees(viewProjection_.fovAngleY));
+
 }
 
 void GameScene::Draw() {
