@@ -75,6 +75,8 @@ void GameScene::Update() {
 	debugText_->Printf(
 	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 
+	 move = {0, 0, 0};
+
 	//注視点の移動の速さ
 	const float kTragetSpeed = 0.2f;
 
