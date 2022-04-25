@@ -19,9 +19,12 @@ void GameScene::Initialize() {
 
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
-			worldTransform_[i][j].scale_ = {1.0f, 1.0f, 1.0f};
-			worldTransform_[i][j].translation_ = {-15.0f + 4.0f * i, 15.0f - 4.0f * j, 0};
-			worldTransform_[i][j].Initialize();
+			for (int k = 0; k < 9; k++) {
+				worldTransform_[i][j][k].scale_ = {1.5f, 1.5f, 1.5f};
+				worldTransform_[i][j][k].translation_ = {
+				  -15.0f + 4.5f * i, 15.0f - 4.5f * j, 15.0f + 4.5f * k};
+				worldTransform_[i][j][k].Initialize();
+			}
 		}
 	}
 	viewProjection_.Initialize();
@@ -57,8 +60,8 @@ void GameScene::Draw() {
 	/// </summary>
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
-			if ((i + 1) % 2 != 0 || (j + 1) % 2 != 0) {
-				model_->Draw(worldTransform_[i][j], viewProjection_, textureHandle_);
+			for (int k = 0; k < 9; k++) {
+				model_->Draw(worldTransform_[i][j][k], viewProjection_, textureHandle_);
 			}
 		}
 	}
