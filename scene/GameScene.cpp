@@ -9,7 +9,6 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() { delete model_; }
 
-
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -18,22 +17,17 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	model_ = Model::Create();
-	//乱数
-	std::random_device seed_gen;
-	//メルセンヌ・ツイスター
-	std::mt19937_64 engine(seed_gen());
-	//乱数範囲(回転角)
-	std::uniform_real_distribution<float> rotDice(0.0f, XM_2PI);
-	//乱数範囲(座標)
-	std::uniform_real_distribution<float> posDice(-10.0f, 10.0f);
+
+	//平行移動の追加
+	worldTransform_[0].translation_ = {-4.5, -2.5, 0};
+	worldTransform_[1].translation_ = {0, 5, 0};
+	worldTransform_[2].translation_ = {4.5, -2.5, 0};
 
 	for (size_t i = 0; i < _countof(worldTransform_); i++) {
 		//スケーリング設定
 		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
 		//回転角の設定
-		worldTransform_[i].rotation_ = {rotDice(engine), rotDice(engine), rotDice(engine)};
-		//平行移動の追加
-		worldTransform_[i].translation_ = {posDice(engine), posDice(engine), posDice(engine)};
+		worldTransform_[i].rotation_ = {0, 0, 0};
 
 		worldTransform_[i].Initialize();
 	}
@@ -45,7 +39,7 @@ void GameScene::Initialize() {
 	viewProjection_.target = {10, 0, 0};
 
 	//カメラ上方向ベクトルを設定
-	viewProjection_.up = {cosf(XM_PI / 4.0f), sinf(XM_PI / 4.0f), 0.0f};
+	viewProjection_.up = {0, 1, 0.0f};
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -55,64 +49,31 @@ void GameScene::Update() {
 	//視点移動ベクトル
 	XMFLOAT3 move = {0, 0, 0};
 
-	//視点移動の速さ
-	const float kEyeSpeed = 0.2f;
-
-	//押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_W)) {
-		move = {0, 0, kEyeSpeed};
-	} else if (input_->PushKey(DIK_S)) {
-		move = {0, 0, -kEyeSpeed};
+	if (input_->TriggerKey(DIK_SPACE)) {
+		viewScene++;
+		if (viewScene >= 3) {
+			viewScene = 0;
+		}
 	}
 
-	//視点移動
-	viewProjection_.eye.x += move.x;
-	viewProjection_.eye.y += move.y;
-	viewProjection_.eye.z += move.z;
+	move = {
+	  worldTransform_[viewScene].translation_.x, worldTransform_[viewScene].translation_.y,
+	  worldTransform_[viewScene].translation_.z};
+
+	//注視点移動
+	viewProjection_.target.x = move.x;
+	viewProjection_.target.y = move.y;
+	viewProjection_.target.z = move.z;
 	viewProjection_.UpdateMatrix();
 
 	debugText_->SetPos(50, 50);
 	debugText_->Printf(
 	  "eye:(%f,%f,%f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 
-	 move = {0, 0, 0};
-
-	//注視点の移動の速さ
-	const float kTragetSpeed = 0.2f;
-
-	//押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_LEFT)) {
-		move = {-kTragetSpeed, 0, 0};
-	} else if (input_->PushKey(DIK_RIGHT)) {
-		move = {kTragetSpeed, 0, 0};
-	}
-
-	//注視点移動
-	viewProjection_.target.x += move.x;
-	viewProjection_.target.y += move.y;
-	viewProjection_.target.z += move.z;
-	viewProjection_.UpdateMatrix();
-
 	debugText_->SetPos(50, 70);
 	debugText_->Printf(
 	  "target:(%f,%f,%f)", viewProjection_.target.x, viewProjection_.target.y,
 	  viewProjection_.target.z);
-
-	//上方向の回転速さ
-	const float kUpRotSpeed = 0.05f;
-
-	//押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_SPACE)) {
-		viewAngle += kUpRotSpeed;
-		//2πを超えたら0に戻す
-		viewAngle = fmodf(viewAngle, XM_2PI);
-	}
-
-	//上方向ベクトルを計算
-	viewProjection_.up = {cosf(viewAngle), sinf(viewAngle), 0.0f};
-
-	//行列の再計算
-	viewProjection_.UpdateMatrix();
 
 	debugText_->SetPos(50, 90);
 	debugText_->Printf(
