@@ -16,19 +16,25 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	model_ = Model::Create();
+	angle = 0;
 
-	for (int i = 0; i < 20; i++) {
-		worldTransform_Up[i].scale_ = {5.0f, 5.0f, 5.0f};
-		worldTransform_Down[i].scale_ = {5.0f, 5.0f, 5.0f};
-		worldTransform_Up[i].translation_ = {-50 + 10.0f * i, 20.0f, 0};
-		worldTransform_Down[i].translation_ = {-50 + 10.0f * i, -20.0f, 0};
-		worldTransform_Up[i].Initialize();
-		worldTransform_Down[i].Initialize();
+	for (int i = 0; i < 10; i++) {
+		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		worldTransform_[i].translation_ = {
+		  cos((XM_2PI / 10.0f) * i) * 10, sin((XM_2PI / 10.0f) * i) * 10, 0};
+		worldTransform_[i].Initialize();
 	}
 	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	angle += 0.05;
+	for (int i = 0; i < 10; i++) {
+		worldTransform_[i].translation_.x = cos((XM_2PI / 10.0f) * i + angle) * 10;
+		worldTransform_[i].translation_.y = sin((XM_2PI / 10.0f) * i + angle) * 10;
+		worldTransform_[i].UpdateMatrix();
+	}
+}
 
 void GameScene::Draw() {
 
@@ -56,9 +62,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (int i = 0; i < 20; i++) {
-		model_->Draw(worldTransform_Up[i], viewProjection_, textureHandle_);
-		model_->Draw(worldTransform_Down[i], viewProjection_, textureHandle_);
+	for (int i = 0; i < 10; i++) {
+		model_->Draw(worldTransform_[i], viewProjection_, textureHandle_);
 	}
 
 	// 3Dオブジェクト描画後処理
