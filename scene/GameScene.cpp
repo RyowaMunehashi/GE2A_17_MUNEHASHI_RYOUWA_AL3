@@ -19,6 +19,8 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
+	//軸方向表示の表示を有効にする
+
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
