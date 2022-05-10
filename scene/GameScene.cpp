@@ -1,4 +1,5 @@
 ﻿#include "GameScene.h"
+#include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include <cassert>
 
@@ -23,6 +24,8 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	//軸方向表示が参照するビュープロジェクションを指定する
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+	//ライン描画が参照するビュープロジェクションを指定する
+	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
@@ -60,6 +63,14 @@ void GameScene::Draw() {
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
+
+	//ライン描画が参照するビュープロジェクションを指定する
+	for (int i = 0; i <= 20; i++) {
+		PrimitiveDrawer::GetInstance()->DrawLine3d(
+		  Vector3(-10 + i, -10, 0), Vector3(-10 + i, 10, 0), Vector4(0, 255, 0, 50));
+		PrimitiveDrawer::GetInstance()->DrawLine3d(
+		  Vector3(-10, -10 + i, 0), Vector3(10, -10 + i, 0), Vector4(0, 0, 255, 50));
+	}
 #pragma endregion
 
 #pragma region 前景スプライト描画
